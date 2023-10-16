@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class UserOutput {
+    private String userId;
+    private String username;
     private boolean success;
     private String role;
 }
