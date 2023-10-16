@@ -13,7 +13,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User encodePassward(User user){
+    public User encodePassward(User user) {
         String password = Base64.encodeBase64String(user.getPassword().getBytes());
         User passwordEncUser = new User();
         passwordEncUser.setId(user.getId());
@@ -29,6 +29,7 @@ public class UserService {
         UserOutput userOutput = new UserOutput();
         if (existingUser != null && existingUser.getPassword().equals(encodePassward(user).getPassword())) {
             userOutput.setUserId(existingUser.getId());
+            userOutput.setEmail(existingUser.getEmail());
             userOutput.setUsername(existingUser.getUsername());
             userOutput.setSuccess(true);
             userOutput.setRole(existingUser.getRole());

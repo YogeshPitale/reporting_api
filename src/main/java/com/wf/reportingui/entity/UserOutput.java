@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserOutput {
     private String userId;
+    private String email;
     private String username;
     private boolean success;
     private String role;
