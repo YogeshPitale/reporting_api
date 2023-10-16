@@ -7,6 +7,7 @@ import com.wf.reportingui.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +25,7 @@ public class UserController {
         User saveUser = userRepository.save(user);
         return new ResponseEntity<>(saveUser, HttpStatus.OK);
     }
-
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<UserOutput> userLogin(@RequestBody User user) {
         UserOutput userOutput = userService.validateCredentials(user.getUsername(), user.getPassword());

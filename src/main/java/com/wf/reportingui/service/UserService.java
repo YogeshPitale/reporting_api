@@ -13,18 +13,17 @@ public class UserService {
     private UserRepository userRepository;
 
     public UserOutput validateCredentials(String username, String password) {
-        User existingUser = userRepository.findByUsername(username,password);
+        User existingUser = userRepository.findByUsername(username, password);
         UserOutput userOutput = new UserOutput();
 
-            if (existingUser != null) {
-                userOutput.setSuccess(true);
-                userOutput.setRole(existingUser.getRole());
+        if (existingUser != null && existingUser.getPassword().equals(password)) {
+            userOutput.setSuccess(true);
+            userOutput.setRole(existingUser.getRole());
 
-            }
-                else {
-                    userOutput.setSuccess(false);
-                    userOutput.setRole(null);
-                }
+        } else {
+            userOutput.setSuccess(false);
+            userOutput.setRole(null);
+        }
 
         return userOutput;
     }
