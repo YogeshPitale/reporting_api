@@ -4,6 +4,7 @@ import com.wf.reportingui.entity.User;
 import com.wf.reportingui.entity.UserOutput;
 import com.wf.reportingui.repo.UserRepository;
 import com.wf.reportingui.service.UserService;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.nio.charset.StandardCharsets;
 
 @RestController
 public class UserController {
@@ -22,14 +25,15 @@ public class UserController {
 
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user) {
-        User saveUser = userRepository.save(user);
+        User saveUser = userRepository.save(userService.encodePassward(user));
         return new ResponseEntity<>(saveUser, HttpStatus.OK);
     }
+
     @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<UserOutput> userLogin(@RequestBody User user) {
-        UserOutput userOutput = userService.validateCredentials(user.getUsername(), user.getPassword());
-        return new ResponseEntity<>(userOutput,HttpStatus.OK);
+        UserOutput userOutput = userService.validateCredentials(user);
+        return new ResponseEntity<>(userOutput, HttpStatus.OK);
     }
 }
 
