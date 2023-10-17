@@ -36,9 +36,8 @@ public class ReportService {
     public Optional<List<ReportDTO>> getReportsByUserId(String userId) {
         List<Report> reports = reportRepository.findByUserId(userId);
         return Optional.of(reports.stream()
-                .map(report -> new ReportDTO(report.getId(), report.getReportName()))
+                .map(report -> new ReportDTO(report.getId(), report.getReportName(), report.getStatus(), report.getSubmittedDate()))
                 .collect(Collectors.toList()));
-
     }
 
     public Optional<ReportDetailsDTO> getReportDetails(String reportId) {

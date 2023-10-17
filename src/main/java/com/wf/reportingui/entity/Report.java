@@ -17,6 +17,8 @@ public class Report {
     private User user;
 
     private String reportName;
+    private String status;
+    private String submittedDate;
     private String source;
     private String target;
 
