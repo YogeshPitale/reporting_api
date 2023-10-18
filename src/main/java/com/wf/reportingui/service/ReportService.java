@@ -4,7 +4,7 @@ import com.wf.reportingui.dto.ReportDTO;
 import com.wf.reportingui.dto.ReportDetailsDTO;
 import com.wf.reportingui.entity.Report;
 import com.wf.reportingui.entity.User;
-import com.wf.reportingui.repo.UserRepository;
+import com.wf.reportingui.repository.UserRepository;
 import com.wf.reportingui.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,15 +21,12 @@ public class ReportService {
     private UserRepository userRepository;
 
     public Report saveReport(String userId, Report report) {
-        User user = report.getUser();
-
         Optional<User> existingUser = userRepository.findById(userId);
-
         if (existingUser.isPresent()) {
-            report.setUser(existingUser.get());
+            report.setUserId(existingUser.get().getId());
             return reportRepository.save(report);
         } else {
-            throw new RuntimeException("User not found with Id: " + user.getId());
+            throw new RuntimeException("User not found");
         }
     }
 
