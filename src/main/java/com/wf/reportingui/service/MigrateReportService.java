@@ -32,7 +32,7 @@ public class MigrateReportService {
             throw new RuntimeException("User with given userId not found");
         } else {
             Report report = new Report();
-            report.setUser(existingUser.get());
+            report.setUserId(existingUser.get().getId());
             report.setReportName(migrateReport.getReport());
             report.setStatus("submitted for analysis");
             report.setSource(migrateReport.getSource());
