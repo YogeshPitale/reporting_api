@@ -2,7 +2,7 @@ package com.wf.reportingui.controller;
 
 import com.wf.reportingui.entity.User;
 import com.wf.reportingui.entity.UserOutput;
-import com.wf.reportingui.repository.UserRepository;
+import com.wf.reportingui.repo.UserRepository;
 import com.wf.reportingui.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

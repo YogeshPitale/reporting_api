@@ -4,7 +4,7 @@ import com.wf.reportingui.dto.ReportDTO;
 import com.wf.reportingui.dto.ReportDetailsDTO;
 import com.wf.reportingui.entity.Report;
 import com.wf.reportingui.entity.User;
-import com.wf.reportingui.repository.UserRepository;
+import com.wf.reportingui.repo.UserRepository;
 import com.wf.reportingui.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

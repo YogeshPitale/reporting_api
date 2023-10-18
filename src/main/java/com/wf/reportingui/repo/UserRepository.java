@@ -1,4 +1,4 @@
-package com.wf.reportingui.repository;
+package com.wf.reportingui.repo;
 
 import com.wf.reportingui.entity.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
