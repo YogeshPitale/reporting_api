@@ -21,12 +21,14 @@ public class ReportController {
         return ResponseEntity.ok(reportService.saveReport(userId, report));
     }
 
+    @CrossOrigin
     @GetMapping("/getReports")
     public ResponseEntity<List<ReportDTO>> getReports(@RequestParam String userId) {
         return reportService.getReportsByUserId(userId)
                 .map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @CrossOrigin
     @GetMapping("/getReportDetails")
     public ResponseEntity<ReportDetailsDTO> getReportDetails(@RequestParam String reportId) {
         return reportService.getReportDetails(reportId)

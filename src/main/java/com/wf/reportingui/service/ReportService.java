@@ -36,7 +36,6 @@ public class ReportService {
                 .map(report -> new ReportDTO(report.getId(), report.getReportName(), report.getStatus(), report.getSubmittedDate()))
                 .collect(Collectors.toList()));
     }
-
     public Optional<ReportDetailsDTO> getReportDetails(String reportId) {
         Optional<Report> reportDetails = reportRepository.findById(reportId);
         return reportDetails.map(report -> new ReportDetailsDTO(report.getId(), report.getReportName(), report.getSource(), report.getTarget()));
