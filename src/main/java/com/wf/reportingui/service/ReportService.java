@@ -21,15 +21,12 @@ public class ReportService {
     private UserRepository userRepository;
 
     public Report saveReport(String userId, Report report) {
-        User user = report.getUser();
-
         Optional<User> existingUser = userRepository.findById(userId);
-
         if (existingUser.isPresent()) {
-            report.setUser(existingUser.get());
+            report.setUserId(existingUser.get().getId());
             return reportRepository.save(report);
         } else {
-            throw new RuntimeException("User not found with Id: " + user.getId());
+            throw new RuntimeException("User not found");
         }
     }
 
