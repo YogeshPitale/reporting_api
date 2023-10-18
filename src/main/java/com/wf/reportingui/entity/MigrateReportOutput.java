@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class MigrateReportOutput {
-    private boolean success;
     private String migratedReportId;
+    private boolean success;
     private String error;
 }
