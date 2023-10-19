@@ -24,9 +24,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/addUser")
-    public ResponseEntity<User> addUser(@RequestBody User user) {
+    public ResponseEntity<UserOutput> addUser(@RequestBody User user) {
         User saveUser = userRepository.save(userService.encodePassward(user));
-        return new ResponseEntity<>(saveUser, HttpStatus.OK);
+        UserOutput userOutput = new UserOutput(saveUser.getId(),saveUser.getEmail(), saveUser.getUsername(),true,saveUser.getRole());
+        return new ResponseEntity<>(userOutput, HttpStatus.OK);
     }
 
     @CrossOrigin
