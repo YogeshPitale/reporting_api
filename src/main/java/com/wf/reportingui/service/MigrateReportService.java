@@ -5,13 +5,9 @@ import com.wf.reportingui.entity.MigrateReport;
 import com.wf.reportingui.entity.MigrateReportOutput;
 import com.wf.reportingui.entity.Report;
 import com.wf.reportingui.entity.User;
-import com.wf.reportingui.repo.MigrateReportRepository;
 import com.wf.reportingui.repo.UserRepository;
 import com.wf.reportingui.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -34,7 +30,7 @@ public class MigrateReportService {
             Report report = new Report();
             report.setUserId(existingUser.get().getId());
             report.setReportName(migrateReport.getReport());
-            report.setStatus("submitted for analysis");
+            report.setStatus("Submitted for Analysis");
             report.setSource(migrateReport.getSource());
             report.setTarget(migrateReport.getTarget());
             report.setSubmittedDate(new Date().toString());
