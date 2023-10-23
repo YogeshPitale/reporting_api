@@ -14,7 +14,7 @@ public class MigrateReport {
     @Id
     private String id;
     private String source;
-    private String report;
+    private String reportName;
     private String filePath;
     private String target;
 }
