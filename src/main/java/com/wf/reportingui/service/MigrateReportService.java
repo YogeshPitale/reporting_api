@@ -21,7 +21,7 @@ public class MigrateReportService {
     @Autowired
     private UserRepository userRepository;
 
-    public MigrateReportOutput migrateReport(String userId, MigrateReport migrateReport) throws FileNotFoundException {
+    public MigrateReportOutput migrateReport(String userId, MigrateReport migrateReport) {
 
         Optional<User> existingUser = userRepository.findById(userId);
         if (existingUser.isEmpty()) {

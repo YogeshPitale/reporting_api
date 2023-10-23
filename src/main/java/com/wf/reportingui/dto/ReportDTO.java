@@ -8,11 +8,13 @@ public class ReportDTO {
     private String reportName;
     private String status;
     private String submittedDate;
+    private String submittedBy;
 
-    public ReportDTO(String id, String reportName, String status, String submittedDate) {
+    public ReportDTO(String id, String reportName, String status, String submittedDate, String submittedBy) {
         this.id = id;
         this.reportName = reportName;
         this.status = status;
         this.submittedDate = submittedDate;
+        this.submittedBy = submittedBy;
     }
 }

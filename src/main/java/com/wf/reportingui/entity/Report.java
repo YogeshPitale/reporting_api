@@ -16,6 +16,7 @@ public class Report {
     private String reportName;
     private String status;
     private String submittedDate;
+    private String submittedBy;
     private String source;
     private String target;
 
