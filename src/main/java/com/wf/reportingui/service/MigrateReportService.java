@@ -9,6 +9,8 @@ import com.wf.reportingui.repo.UserRepository;
 import com.wf.reportingui.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.time.Instant;
 import java.util.Date;
@@ -22,13 +24,23 @@ public class MigrateReportService {
     @Autowired
     private UserRepository userRepository;
 
-    public MigrateReportOutput migrateReport(String userId, MigrateReport migrateReport) {
+    @Autowired
+    private FileStorageService fileStorageService;
 
+    public MigrateReportOutput migrateReport(String userId, MigrateReport migrateReport, MultipartFile file) {
+        Report report = new Report();
         Optional<User> existingUser = userRepository.findById(userId);
-        if (existingUser.isPresent() && WF_USER.equalsIgnoreCase(existingUser.get().getRole())) {
-            Report report = new Report();
-            report.setUserId(existingUser.get().getId());
+        if(migrateReport.getReportName() == null || migrateReport.getReportName().isBlank()){
+            String filename = fileStorageService.storeFile(file);
+            String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(filename).toUriString();
+            String contentType = file.getContentType();
+            report.setReportName(filename);
+        }else{
             report.setReportName(migrateReport.getReportName());
+        }
+        if (existingUser.isPresent() && WF_USER.equalsIgnoreCase(existingUser.get().getRole())) {
+
+            report.setUserId(existingUser.get().getId());
             report.setStatus("Submitted for Analysis");
             report.setSource(migrateReport.getSource());
             report.setTarget(migrateReport.getTarget());
