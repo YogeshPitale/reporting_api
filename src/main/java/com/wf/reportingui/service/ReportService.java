@@ -46,14 +46,12 @@ public class ReportService {
         Optional<User> existingUser = userRepository.findById(userId);
 
         if (existingUser.isPresent() && PS_USER.equalsIgnoreCase(existingUser.get().getRole())) {
-            System.out.println(PS_USER);
             List<Report> reports = reportRepository.findAll();
             return reports.stream()
                     .map(report -> new ReportDTO(report.getId(), report.getReportName(), report.getStatus(), report.getSubmittedDate(), report.getSubmittedBy()))
                     .collect(Collectors.toList());
 
         } else if (existingUser.isPresent() && WF_USER.equalsIgnoreCase(existingUser.get().getRole())) {
-            System.out.println(WF_USER);
             List<Report> userReports = reportRepository.findByUserId(existingUser.get().getId());
             return userReports.stream()
                     .map(report -> new ReportDTO(
@@ -64,7 +62,6 @@ public class ReportService {
                             report.getSubmittedBy()))
                     .collect(Collectors.toList());
         } else {
-            System.out.println("Empty List");
             return Collections.emptyList();
         }
     }
