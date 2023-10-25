@@ -3,6 +3,7 @@ package com.wf.reportingui.service;
 import com.wf.reportingui.dto.ReportDTO;
 import com.wf.reportingui.dto.ReportDetailsDTO;
 import com.wf.reportingui.entity.Report;
+import com.wf.reportingui.entity.ShareAnalysis;
 import com.wf.reportingui.entity.User;
 import com.wf.reportingui.repo.UserRepository;
 import com.wf.reportingui.repository.ReportRepository;
@@ -23,12 +24,17 @@ public class ReportService {
     @Autowired
     private UserRepository userRepository;
 
-    public Report saveReport(String userId, Report report) {
+    public Report saveReport(String userId, Report report, ShareAnalysis shareAnalysis) {
         Optional<User> existingUser = userRepository.findById(userId);
         if (existingUser.isPresent() && WF_USER.equalsIgnoreCase(existingUser.get().getRole())) {
             report.setUserId(existingUser.get().getId());
-            report.setStatus("Submitted For Analysis");
             report.setSubmittedBy(existingUser.get().getUsername());
+            report.setShareAnalysis(shareAnalysis);
+            if (report.getShareAnalysis() != null) {
+                report.setStatus("Analysis Ready");
+            } else {
+                report.setStatus("Submitted For Analysis");
+            }
             return reportRepository.save(report);
         } else {
             throw new RuntimeException("WF User not found");
@@ -38,7 +44,14 @@ public class ReportService {
     public Optional<List<ReportDTO>> getReportsByUserId(String userId) {
         List<Report> reports = reportRepository.findByUserId(userId);
         return Optional.of(reports.stream()
-                .map(report -> new ReportDTO(report.getId(), report.getReportName(), report.getStatus(), report.getSubmittedDate(), report.getSubmittedBy()))
+                .map(report -> new ReportDTO(
+                        report.getId(),
+                        report.getReportName(),
+                        report.getStatus(),
+                        report.getSubmittedDate(),
+                        report.getSubmittedBy(),
+                        report.getShareAnalysis()
+                ))
                 .collect(Collectors.toList()));
     }
 
@@ -48,7 +61,14 @@ public class ReportService {
         if (existingUser.isPresent() && PS_USER.equalsIgnoreCase(existingUser.get().getRole())) {
             List<Report> reports = reportRepository.findAll();
             return reports.stream()
-                    .map(report -> new ReportDTO(report.getId(), report.getReportName(), report.getStatus(), report.getSubmittedDate(), report.getSubmittedBy()))
+                    .map(report -> new ReportDTO(
+                            report.getId(),
+                            report.getReportName(),
+                            report.getStatus(),
+                            report.getSubmittedDate(),
+                            report.getSubmittedBy(),
+                            report.getShareAnalysis()
+                    ))
                     .collect(Collectors.toList());
 
         } else if (existingUser.isPresent() && WF_USER.equalsIgnoreCase(existingUser.get().getRole())) {
@@ -59,7 +79,9 @@ public class ReportService {
                             report.getReportName(),
                             report.getStatus(),
                             report.getSubmittedDate(),
-                            report.getSubmittedBy()))
+                            report.getSubmittedBy(),
+                            report.getShareAnalysis()
+                    ))
                     .collect(Collectors.toList());
         } else {
             return Collections.emptyList();
@@ -68,7 +90,13 @@ public class ReportService {
 
     public Optional<ReportDetailsDTO> getReportDetails(String reportId) {
         Optional<Report> reportDetails = reportRepository.findById(reportId);
-        return reportDetails.map(report -> new ReportDetailsDTO(report.getId(), report.getReportName(), report.getSource(), report.getTarget()));
+        return reportDetails
+                .map(report -> new ReportDetailsDTO(
+                        report.getId(),
+                        report.getReportName(),
+                        report.getSource(),
+                        report.getTarget()
+                ));
     }
 
 }
