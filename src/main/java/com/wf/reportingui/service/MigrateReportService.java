@@ -34,6 +34,7 @@ public class MigrateReportService {
             report.setTarget(migrateReport.getTarget());
             report.setSubmittedDate(Instant.now().toString());
             report.setSubmittedBy(existingUser.get().getUsername());
+            report.setShareAnalysis(migrateReport.getShareAnalysis());
             Report saveReport = reportRepository.save(report);
 
             MigrateReportOutput migrateReportOutput = new MigrateReportOutput();

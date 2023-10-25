@@ -24,20 +24,32 @@ public class ReportService {
     @Autowired
     private UserRepository userRepository;
 
-    public Report saveReport(String userId, Report report, ShareAnalysis shareAnalysis) {
+    public Report saveReport(String userId, Report report) {
         Optional<User> existingUser = userRepository.findById(userId);
+
         if (existingUser.isPresent() && WF_USER.equalsIgnoreCase(existingUser.get().getRole())) {
             report.setUserId(existingUser.get().getId());
             report.setSubmittedBy(existingUser.get().getUsername());
-            report.setShareAnalysis(shareAnalysis);
-            if (report.getShareAnalysis() != null) {
-                report.setStatus("Analysis Ready");
-            } else {
-                report.setStatus("Submitted For Analysis");
-            }
+            report.setStatus("Submitted For Analysis");
             return reportRepository.save(report);
         } else {
             throw new RuntimeException("WF User not found");
+        }
+    }
+
+    public Report addShareAnalysis(String reportId, ShareAnalysis shareAnalysis) {
+        Optional<Report> optionalReport = reportRepository.findById(reportId);
+
+        if (optionalReport.isPresent()) {
+            Report existingReport = optionalReport.get();
+            existingReport.setShareAnalysis(shareAnalysis);
+
+            if (existingReport.getShareAnalysis() != null) {
+                existingReport.setStatus("Analysis Ready");
+            }
+            return reportRepository.save(existingReport);
+        } else {
+            throw new RuntimeException("Report not found");
         }
     }
 
