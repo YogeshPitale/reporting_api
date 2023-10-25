@@ -28,6 +28,12 @@ public class ReportController {
                 .map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+
+    @GetMapping("/getAllReports")
+    public ResponseEntity<List<ReportDTO>> getAllReportsByRole(@RequestParam String userId) {
+        return ResponseEntity.ok(reportService.getAllReportsByRole(userId));
+    }
+
     @CrossOrigin
     @GetMapping("/getReportDetails")
     public ResponseEntity<ReportDetailsDTO> getReportDetails(@RequestParam String reportId) {

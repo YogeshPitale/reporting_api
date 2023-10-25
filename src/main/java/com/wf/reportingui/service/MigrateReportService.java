@@ -10,7 +10,7 @@ import com.wf.reportingui.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
 
@@ -21,7 +21,7 @@ public class MigrateReportService {
     @Autowired
     private UserRepository userRepository;
 
-    public MigrateReportOutput migrateReport(String userId, MigrateReport migrateReport) throws FileNotFoundException {
+    public MigrateReportOutput migrateReport(String userId, MigrateReport migrateReport) {
 
         Optional<User> existingUser = userRepository.findById(userId);
         if (existingUser.isEmpty()) {
@@ -29,11 +29,11 @@ public class MigrateReportService {
         } else {
             Report report = new Report();
             report.setUserId(existingUser.get().getId());
-            report.setReportName(migrateReport.getReport());
+            report.setReportName(migrateReport.getReportName());
             report.setStatus("Submitted for Analysis");
             report.setSource(migrateReport.getSource());
             report.setTarget(migrateReport.getTarget());
-            report.setSubmittedDate(new Date().toString());
+            report.setSubmittedDate(Instant.now().toString());
             Report saveReport = reportRepository.save(report);
 
             MigrateReportOutput migrateReportOutput = new MigrateReportOutput();
