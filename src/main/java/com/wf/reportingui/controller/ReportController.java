@@ -19,8 +19,12 @@ public class ReportController {
 
     @PostMapping("/addReport/{userId}")
     public ResponseEntity<Report> addReport(@PathVariable String userId, @RequestBody Report report) {
-        ShareAnalysis shareAnalysis = report.getShareAnalysis();
-        return ResponseEntity.ok(reportService.saveReport(userId, report, shareAnalysis));
+        return ResponseEntity.ok(reportService.saveReport(userId, report));
+    }
+
+    @PostMapping("/addShareAnalysis")
+    public ResponseEntity<Report> addShareAnalysis(@RequestParam String reportId, @RequestBody ShareAnalysis shareAnalysis) {
+        return ResponseEntity.ok(reportService.addShareAnalysis(reportId, shareAnalysis));
     }
 
     @CrossOrigin
