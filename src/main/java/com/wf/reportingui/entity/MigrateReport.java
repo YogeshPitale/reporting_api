@@ -17,4 +17,5 @@ public class MigrateReport {
     private String reportName;
     private String filePath;
     private String target;
+    private ShareAnalysis shareAnalysis;
 }
