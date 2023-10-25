@@ -34,10 +34,15 @@ public class FileUploadDownlaodController {
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename, HttpServletRequest httpServletRequest){
         Resource resource = fileStorageService.downloadFile(filename);
 
-        MediaType contentType = MediaType.IMAGE_JPEG;
-
+        //MediaType contentType = MediaType.IMAGE_JPEG;
+        String mimeType;
+        try{
+            mimeType = httpServletRequest.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
+        } catch (IOException e) {
+            mimeType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+        }
         return ResponseEntity.ok()
-                .contentType(contentType)
+                .contentType(MediaType.parseMediaType(mimeType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename="+resource.getFilename())
                 .body(resource);
     }
