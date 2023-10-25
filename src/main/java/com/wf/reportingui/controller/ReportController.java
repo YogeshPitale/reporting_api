@@ -3,6 +3,7 @@ package com.wf.reportingui.controller;
 import com.wf.reportingui.dto.ReportDTO;
 import com.wf.reportingui.dto.ReportDetailsDTO;
 import com.wf.reportingui.entity.Report;
+import com.wf.reportingui.entity.ShareAnalysis;
 import com.wf.reportingui.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,8 @@ public class ReportController {
 
     @PostMapping("/addReport/{userId}")
     public ResponseEntity<Report> addReport(@PathVariable String userId, @RequestBody Report report) {
-        return ResponseEntity.ok(reportService.saveReport(userId, report));
+        ShareAnalysis shareAnalysis = report.getShareAnalysis();
+        return ResponseEntity.ok(reportService.saveReport(userId, report, shareAnalysis));
     }
 
     @CrossOrigin

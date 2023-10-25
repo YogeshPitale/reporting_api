@@ -20,4 +20,6 @@ public class Report {
     private String source;
     private String target;
 
+    private ShareAnalysis shareAnalysis;
+
 }
