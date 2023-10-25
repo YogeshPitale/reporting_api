@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @Service
 public class MigrateReportService {
+    final private static String WF_USER = "wf_user";
     @Autowired
     private ReportRepository reportRepository;
     @Autowired
@@ -24,9 +25,7 @@ public class MigrateReportService {
     public MigrateReportOutput migrateReport(String userId, MigrateReport migrateReport) {
 
         Optional<User> existingUser = userRepository.findById(userId);
-        if (existingUser.isEmpty()) {
-            throw new RuntimeException("User with given userId not found");
-        } else {
+        if (existingUser.isPresent() && WF_USER.equalsIgnoreCase(existingUser.get().getRole())) {
             Report report = new Report();
             report.setUserId(existingUser.get().getId());
             report.setReportName(migrateReport.getReportName());
@@ -34,6 +33,8 @@ public class MigrateReportService {
             report.setSource(migrateReport.getSource());
             report.setTarget(migrateReport.getTarget());
             report.setSubmittedDate(Instant.now().toString());
+            report.setSubmittedBy(existingUser.get().getUsername());
+            report.setShareAnalysis(migrateReport.getShareAnalysis());
             Report saveReport = reportRepository.save(report);
 
             MigrateReportOutput migrateReportOutput = new MigrateReportOutput();
@@ -41,6 +42,8 @@ public class MigrateReportService {
             migrateReportOutput.setSuccess(true);
             migrateReportOutput.setError(null);
             return migrateReportOutput;
+        } else {
+            throw new RuntimeException("User with given userId not found");
         }
     }
 }
