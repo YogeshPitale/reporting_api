@@ -145,4 +145,16 @@ public class ReportService {
                 ));
     }
 
+    public Report submitQuery(String reportId, String query) {
+        Optional<Report> optionalReport = reportRepository.findById(reportId);
+        if(optionalReport.isPresent()){
+            Report existingReport = optionalReport.get();
+            existingReport.setQuery(query);
+            reportRepository.save(existingReport);
+            return existingReport;
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Analysis for report with ID " + reportId + " not found");
+        }
+    }
 }

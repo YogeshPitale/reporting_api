@@ -6,6 +6,7 @@ import com.wf.reportingui.entity.Report;
 import com.wf.reportingui.entity.ShareAnalysis;
 import com.wf.reportingui.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,6 +45,12 @@ public class ReportController {
     @PutMapping("/{reportId}/reject")
     public ResponseEntity<Report> rejectAnalysis(@PathVariable String reportId) {
         return ResponseEntity.ok(reportService.rejectAnalysis(reportId));
+    }
+
+    @CrossOrigin
+    @PostMapping("/submitQuery/{reportId}")
+    public ResponseEntity<Report> submitQuery(@PathVariable String reportId, @RequestBody String query) {
+        return new ResponseEntity<>(reportService.submitQuery(reportId, query), HttpStatus.OK);
     }
 
     @CrossOrigin
