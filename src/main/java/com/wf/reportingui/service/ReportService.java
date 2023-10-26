@@ -8,7 +8,9 @@ import com.wf.reportingui.entity.User;
 import com.wf.reportingui.repo.UserRepository;
 import com.wf.reportingui.repository.ReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +35,7 @@ public class ReportService {
             report.setStatus("Submitted For Analysis");
             return reportRepository.save(report);
         } else {
-            throw new RuntimeException("WF User not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "WF User with ID " + userId + " not found");
         }
     }
 
@@ -49,7 +51,38 @@ public class ReportService {
             }
             return reportRepository.save(existingReport);
         } else {
-            throw new RuntimeException("Report not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Analysis for report with ID " + reportId + " not found");
+        }
+    }
+
+    public ShareAnalysis getShareAnalysisByReportId(String reportId){
+        Optional<Report> optionalReport = reportRepository.findById(reportId);
+        if(optionalReport.isPresent()){
+            Report existingReport = optionalReport.get();
+            return existingReport.getShareAnalysis();
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Analysis for report with ID " + reportId + " not found");
+        }
+    }
+
+    public Report approveAnalysis(String reportId) {
+        return updateApprovalStatus(reportId, "Analysis Approved");
+    }
+
+    public Report rejectAnalysis(String reportId) {
+        return updateApprovalStatus(reportId, "Analysis Rejected");
+    }
+
+    private Report updateApprovalStatus(String reportId, String status) {
+        Optional<Report> optionalAnalysis = reportRepository.findById(reportId);
+
+        if (optionalAnalysis.isPresent()) {
+            Report report = optionalAnalysis.get();
+            report.setStatus(status);
+            return reportRepository.save(report);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Analysis for report with ID " + reportId + " not found");
         }
     }
 
@@ -110,18 +143,6 @@ public class ReportService {
                         report.getTarget(),
                         report.getUrl()
                 ));
-    }
-
-    public ShareAnalysis getShareAnalysisByReportId(String reportId){
-        Optional<Report> optionalReport = reportRepository.findById(reportId);
-        if(optionalReport.isPresent()){
-            Report existingReport = optionalReport.get();
-            return existingReport.getShareAnalysis();
-        }
-        else {
-            throw new RuntimeException("Share Analysis For this Report not found");
-        }
-
     }
 
 }
