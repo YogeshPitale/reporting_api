@@ -27,11 +27,25 @@ public class ReportController {
     public ResponseEntity<Report> addShareAnalysis(@RequestParam String reportId, @RequestBody ShareAnalysis shareAnalysis) {
         return ResponseEntity.ok(reportService.addShareAnalysis(reportId, shareAnalysis));
     }
+
     @CrossOrigin
     @GetMapping("/getShareAnalysis")
     public ResponseEntity<ShareAnalysis> getShareAnalysis(@RequestParam String reportId) {
         return ResponseEntity.ok(reportService.getShareAnalysisByReportId(reportId));
     }
+
+    @CrossOrigin
+    @PutMapping("/{reportId}/approve")
+    public ResponseEntity<Report> approveAnalysis(@PathVariable String reportId) {
+        return ResponseEntity.ok(reportService.approveAnalysis(reportId));
+    }
+
+    @CrossOrigin
+    @PutMapping("/{reportId}/reject")
+    public ResponseEntity<Report> rejectAnalysis(@PathVariable String reportId) {
+        return ResponseEntity.ok(reportService.rejectAnalysis(reportId));
+    }
+
     @CrossOrigin
     @GetMapping("/getReports")
     public ResponseEntity<List<ReportDTO>> getReports(@RequestParam String userId) {
