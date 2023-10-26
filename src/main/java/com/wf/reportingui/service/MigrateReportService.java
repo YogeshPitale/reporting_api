@@ -35,6 +35,7 @@ public class MigrateReportService {
             String url = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(filename).toUriString();
             String contentType = file.getContentType();
             report.setReportName(filename);
+            report.setUrl(url);
         }else{
             report.setReportName(migrateReport.getReportName());
         }

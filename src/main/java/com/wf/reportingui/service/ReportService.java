@@ -107,8 +107,21 @@ public class ReportService {
                         report.getId(),
                         report.getReportName(),
                         report.getSource(),
-                        report.getTarget()
+                        report.getTarget(),
+                        report.getUrl()
                 ));
+    }
+
+    public ShareAnalysis getShareAnalysisByReportId(String reportId){
+        Optional<Report> optionalReport = reportRepository.findById(reportId);
+        if(optionalReport.isPresent()){
+            Report existingReport = optionalReport.get();
+            return existingReport.getShareAnalysis();
+        }
+        else {
+            throw new RuntimeException("Share Analysis For this Report not found");
+        }
+
     }
 
 }

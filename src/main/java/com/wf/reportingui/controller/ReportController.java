@@ -22,11 +22,16 @@ public class ReportController {
         return ResponseEntity.ok(reportService.saveReport(userId, report));
     }
 
+    @CrossOrigin
     @PostMapping("/addShareAnalysis")
     public ResponseEntity<Report> addShareAnalysis(@RequestParam String reportId, @RequestBody ShareAnalysis shareAnalysis) {
         return ResponseEntity.ok(reportService.addShareAnalysis(reportId, shareAnalysis));
     }
-
+    @CrossOrigin
+    @GetMapping("/getShareAnalysis")
+    public ResponseEntity<ShareAnalysis> getShareAnalysis(@RequestParam String reportId) {
+        return ResponseEntity.ok(reportService.getShareAnalysisByReportId(reportId));
+    }
     @CrossOrigin
     @GetMapping("/getReports")
     public ResponseEntity<List<ReportDTO>> getReports(@RequestParam String userId) {
@@ -35,6 +40,7 @@ public class ReportController {
     }
 
 
+    @CrossOrigin
     @GetMapping("/getAllReports")
     public ResponseEntity<List<ReportDTO>> getAllReportsByRole(@RequestParam String userId) {
         return ResponseEntity.ok(reportService.getAllReportsByRole(userId));
