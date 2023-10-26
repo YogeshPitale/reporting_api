@@ -10,7 +10,6 @@ public class ReportDTO {
     private String status;
     private String submittedDate;
     private String submittedBy;
-
     private ShareAnalysis shareAnalysis;
 
     public ReportDTO(String id, String reportName, String status, String submittedDate, String submittedBy, ShareAnalysis shareAnalysis) {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileNotFoundException;
 
@@ -20,7 +21,7 @@ public class MigrateReportController {
 
     @CrossOrigin
     @PostMapping("/migrate/{userId}")
-    public ResponseEntity<MigrateReportOutput> migrateReport(@PathVariable String userId, @RequestBody MigrateReport migrateReport) throws FileNotFoundException {
-        return new ResponseEntity<>(migrateReportService.migrateReport(userId, migrateReport), HttpStatus.OK);
+    public ResponseEntity<MigrateReportOutput> migrateReport(@PathVariable String userId, @RequestPart("data") MigrateReport migrateReport,@RequestParam("file") MultipartFile file) throws FileNotFoundException {
+        return new ResponseEntity<>(migrateReportService.migrateReport(userId, migrateReport,file), HttpStatus.OK);
     }
 }
