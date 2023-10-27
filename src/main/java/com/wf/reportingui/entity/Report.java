@@ -21,6 +21,6 @@ public class Report {
     private String target;
     private String url;
     private ShareAnalysis shareAnalysis;
-    private String query;
+    private SubmitQuery query;
 
 }

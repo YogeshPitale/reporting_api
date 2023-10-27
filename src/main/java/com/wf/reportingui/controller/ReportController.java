@@ -2,8 +2,10 @@ package com.wf.reportingui.controller;
 
 import com.wf.reportingui.dto.ReportDTO;
 import com.wf.reportingui.dto.ReportDetailsDTO;
+import com.wf.reportingui.entity.MigrateReport;
 import com.wf.reportingui.entity.Report;
 import com.wf.reportingui.entity.ShareAnalysis;
+import com.wf.reportingui.entity.SubmitQuery;
 import com.wf.reportingui.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,7 +51,7 @@ public class ReportController {
 
     @CrossOrigin
     @PostMapping("/submitQuery/{reportId}")
-    public ResponseEntity<Report> submitQuery(@PathVariable String reportId, @RequestBody String query) {
+    public ResponseEntity<Report> submitQuery(@PathVariable String reportId, @RequestBody SubmitQuery query) {
         return new ResponseEntity<>(reportService.submitQuery(reportId, query), HttpStatus.OK);
     }
 

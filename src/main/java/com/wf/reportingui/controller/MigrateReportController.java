@@ -21,7 +21,7 @@ public class MigrateReportController {
 
     @CrossOrigin
     @PostMapping("/migrate/{userId}")
-    public ResponseEntity<MigrateReportOutput> migrateReport(@PathVariable String userId, @RequestPart("data") MigrateReport migrateReport,@RequestParam("file") MultipartFile file) throws FileNotFoundException {
+    public ResponseEntity<MigrateReportOutput> migrateReport(@PathVariable String userId, @RequestPart("data") MigrateReport migrateReport,@RequestPart(value = "file", required = false) MultipartFile file) throws FileNotFoundException {
         return new ResponseEntity<>(migrateReportService.migrateReport(userId, migrateReport,file), HttpStatus.OK);
     }
 }

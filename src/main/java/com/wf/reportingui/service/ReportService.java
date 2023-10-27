@@ -4,6 +4,7 @@ import com.wf.reportingui.dto.ReportDTO;
 import com.wf.reportingui.dto.ReportDetailsDTO;
 import com.wf.reportingui.entity.Report;
 import com.wf.reportingui.entity.ShareAnalysis;
+import com.wf.reportingui.entity.SubmitQuery;
 import com.wf.reportingui.entity.User;
 import com.wf.reportingui.repo.UserRepository;
 import com.wf.reportingui.repository.ReportRepository;
@@ -145,7 +146,7 @@ public class ReportService {
                 ));
     }
 
-    public Report submitQuery(String reportId, String query) {
+    public Report submitQuery(String reportId, SubmitQuery query) {
         Optional<Report> optionalReport = reportRepository.findById(reportId);
         if(optionalReport.isPresent()){
             Report existingReport = optionalReport.get();
